@@ -9,14 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +36,7 @@ fun TranscriptionModelDropDown(
     onItemSelect: (TranscriptionModel) -> Unit,
     items: List<TranscriptionModel>
 ) {
-    val color = MaterialTheme.colors.onSurface
+    val color = MaterialTheme.colorScheme.onSurface
     Box(modifier = modifier){
        DropdownMenu(
            expanded = isOpen,
@@ -48,12 +48,13 @@ fun TranscriptionModelDropDown(
                    onClick = {
                        onItemSelect(item)
                    },
-               ){
-                   Text(
-                       textAlign = TextAlign.Center,
-                       text = item.name
-                   )
-               }
+                   text = {
+                       Text(
+                           textAlign = TextAlign.Center,
+                           text = item.name
+                       )
+                   }
+               )
            }
        }
         Row (
@@ -62,7 +63,7 @@ fun TranscriptionModelDropDown(
                     elevation = 5.dp,
                     shape = RoundedCornerShape(12.dp)
                 ).clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colorScheme.surface)
                 .clickable(onClick = onItemClick)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically

@@ -1,24 +1,21 @@
-package es.ies.severoochoa.lara
+package es.ies.severoochoa.lara.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
-val LightThemeColors = lightColors(
+val BorderColor = Color(0xFFDBDBDC)
+
+val LightThemeColors = lightColorScheme(
     primary = Color(0xFF003F5C),
-    primaryVariant = Color(0xFF2F4B7C),
+    primaryContainer = Color(0xFF2F4B7C),
     secondary = Color(0xFFFFA600),
     background = Color(0xFFF0F0F0),
     surface = Color.White,
@@ -30,9 +27,9 @@ val LightThemeColors = lightColors(
     onError = Color.White
 )
 
-val DarkThemeColors = darkColors(
+val DarkThemeColors: ColorScheme = darkColorScheme(
     primary = Color(0xFF2F4B7C),
-    primaryVariant = Color(0xFF465A7C),
+    primaryContainer = Color(0xFF465A7C),
     secondary = Color(0xFFFFA600),
     background = Color(0xFF121212),
     surface = Color(0xFF1E1E1E),
@@ -61,7 +58,7 @@ fun PiaLaraTheme(
     )
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         shapes = shapes,
         content = content
     )
