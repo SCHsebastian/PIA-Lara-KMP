@@ -43,7 +43,8 @@ fun TranscribeScreen(
     var canRecordAudio by remember { mutableStateOf(value = false) }
     var checkPermission by remember { mutableStateOf(value = false) }
 
-     val recordAudioManager = rememberRecordAudioManager {
+    //TODO AUDIO LOGIC TO BE REVIEWED
+    val recordAudioManager = rememberRecordAudioManager {
         coroutineScope.launch {
             events(TranscribeEvent.StartTranscription(it))
         }

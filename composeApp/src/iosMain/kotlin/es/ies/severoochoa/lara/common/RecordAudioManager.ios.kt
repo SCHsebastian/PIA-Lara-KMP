@@ -11,57 +11,49 @@ import platform.AVFAudio.AVNumberOfChannelsKey
 import platform.AVFAudio.AVSampleRateKey
 import platform.CoreAudioTypes.kAudioFormatMPEG4AAC
 import platform.Foundation.NSFileManager
-import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL.Companion.fileURLWithPath
 import platform.Foundation.temporaryDirectory
 
-private val SampleRate = 44100
+private const val SampleRate = 44100
+
 @OptIn(ExperimentalForeignApi::class)
 @Composable
 actual fun rememberRecordAudioManager(onResult: (RecordedAudio?) -> Unit): RecordAudioManager{
-    val tempAudioFile = NSTemporaryDirectory().plus("audio.3gp")
-    val url = fileURLWithPath(tempAudioFile)
+    val timestamp = getTimeMillis().toString()
+    val fileName = "${timestamp}.mp4"
+    val place = "${NSFileManager.defaultManager.temporaryDirectory.path}/$fileName"
+    val url = fileURLWithPath(place)
 
     val settings = mapOf<Any?, Any>(
         AVFormatIDKey to kAudioFormatMPEG4AAC,
         AVSampleRateKey to SampleRate,
-        AVNumberOfChannelsKey to 2,
+        AVNumberOfChannelsKey to 1,
         AVEncoderAudioQualityKey to AVAudioQuality.MAX_VALUE
     )
 
-    val recorder = AVAudioRecorder(
-        url,
-        settings,
-        null
-    )
-    recorder.prepareToRecord()
+    var recorder : AVAudioRecorder? = null
 
     return RecordAudioManager(
         onRecord = {
-            recorder.record()
+            recorder = AVAudioRecorder(
+                url,
+                settings,
+                null
+            ).also {
+                it.prepareToRecord()
+                it.record()
+            }
         },
         onStop = {
-            recorder.stop()
-            val timestamp = getTimeMillis().toString()
-            val fileName = "${timestamp}.mp4"
-
-            val place = "${NSFileManager.defaultManager.temporaryDirectory.path}/$fileName"
+            recorder?.stop()
             onResult(RecordedAudio(
                 audioBytes = NSFileManager.defaultManager.contentsAtPath(place)?.bytes as ByteArray
             ))
         },
         checkRecording = {
-            recorder.isRecording()
+            recorder?.isRecording() ?: false
         }
     )
-
-
-
-//    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-//    AVSampleRateKey: 44100.0,
-//    AVNumberOfChannelsKey: 2,
-//    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-
 }
 
 

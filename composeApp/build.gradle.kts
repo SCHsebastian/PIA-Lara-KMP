@@ -97,8 +97,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    androidResources.noCompress.add("tflite")
+
     dependencies {
         debugImplementation(compose.uiTooling)
+        // Import the Audio Task Library dependency
+        implementation(libs.tensorflow.lite.audio)
+        // Import the GPU delegate plugin Library for GPU inference
+        implementation(libs.tensorflow.lite.gpudelegate)
     }
 }
 
